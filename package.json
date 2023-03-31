@@ -63,8 +63,8 @@
       "output": "dist",
       "buildResources": "public"
     },
-    "appId": "dev.twstyled.app",
-    "productName": "twstyled-app",
+    "appId": "dev.seedess.app",
+    "productName": "SeedessApp",
     "afterSign": "scripts/notarize.js",
     "mac": {
       "category": "public.app-category.developer-tools",
@@ -84,7 +84,7 @@
     },
     "dmg": {
       "background": "public/dmgBackground.png",
-      "icon": "icon.icns",
+      "icon": "icons8-share-480.png",
       "iconSize": 155,
       "window": {
         "width": 660,
