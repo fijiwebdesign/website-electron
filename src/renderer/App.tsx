@@ -1,7 +1,9 @@
 import type * as React from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { WebviewTag } from 'electron'
 import TopBar from './components/top-bar'
-import logo from './logo.png'
+import { appConfig } from './appConfig'
 
 const containerMotion = {
   initial: 'hidden',
@@ -20,13 +22,40 @@ const containerMotion = {
 }
 
 function App() {
+  const [title, setTitle] = useState('')
+
+  const setTitleFromWebView = () => {
+    const webview = document.querySelector('webview')
+    const title = (webview as WebviewTag)?.getTitle()
+    if (title) {
+      setTitle(title)
+    }
+  }
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      const webview = document.querySelector('webview')
+      webview?.addEventListener('did-finish-load', setTitleFromWebView)
+    })
+    return () => {
+      const webview = document.querySelector('webview')
+      webview?.removeEventListener('did-finish-load', setTitleFromWebView)
+    }
+  })
+
   return (
     <div tw="h-screen w-screen flex flex-col pt-12">
-      <TopBar />
-      <motion.div tw="h-full" {...containerMotion}>
-        <div tw="flex flex-col items-center justify-center h-full pb-0">
-          <img tw="h-48 ml-5" src={logo} draggable="false" />
+      <TopBar>
+        <div tw="flex justify-center w-full" style={{ color: 'white' }}>
+          {title || 'Desktop App'}
         </div>
+      </TopBar>
+      <motion.div tw="h-full" {...containerMotion}>
+        <webview
+          id="main-webview"
+          src={appConfig.siteUrl}
+          tw="h-full w-full"
+        ></webview>
       </motion.div>
     </div>
   )

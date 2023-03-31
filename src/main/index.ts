@@ -23,7 +23,8 @@ function createWindow() {
       contextIsolation: true,
       devTools: isDevelopment,
       spellcheck: false,
-      nodeIntegration: true
+      nodeIntegration: false,
+      webviewTag: true
     },
     show: false
   }
