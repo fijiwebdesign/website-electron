@@ -59,13 +59,7 @@ function createWindow() {
     browserWindow.focus()
   })
 
-  const port = process.env.PORT || 3000
-
-  if (isDevelopment) {
-    void browserWindow.loadURL(`http://localhost:${port}`)
-  } else {
-    void browserWindow.loadFile('./index.html')
-  }
+  void browserWindow.loadFile('./index.html')
 }
 
 void app.whenReady().then(createWindow)
